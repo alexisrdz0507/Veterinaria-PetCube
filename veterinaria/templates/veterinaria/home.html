@@ -1,0 +1,56 @@
+{% extends 'veterinaria/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center">
+        <h1 class="display-4">
+            <i class="fas fa-paw text-success"></i> Bienvenido a PetCube Veterinaria
+        </h1>
+        <p class="lead">Sistema de gestión veterinaria</p>
+        <hr>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-3 mb-4">
+        <div class="card card-hover text-center bg-primary text-white h-100">
+            <div class="card-body">
+                <i class="fas fa-users fa-4x mb-3"></i>
+                <h3>Clientes</h3>
+                <p>Gestiona los dueños de mascotas</p>
+                <a href="/clientes/" class="btn btn-light">Ver Clientes</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card card-hover text-center bg-success text-white h-100">
+            <div class="card-body">
+                <i class="fas fa-dog fa-4x mb-3"></i>
+                <h3>Mascotas</h3>
+                <p>Gestiona las mascotas</p>
+                <a href="/mascotas/" class="btn btn-light">Ver Mascotas</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card card-hover text-center bg-info text-white h-100">
+            <div class="card-body">
+                <i class="fas fa-user-md fa-4x mb-3"></i>
+                <h3>Veterinarios</h3>
+                <p>Gestiona los profesionales</p>
+                <a href="/veterinarios/" class="btn btn-light">Ver Veterinarios</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card card-hover text-center bg-warning text-white h-100">
+            <div class="card-body">
+                <i class="fas fa-stethoscope fa-4x mb-3"></i>
+                <h3>Consultas</h3>
+                <p>Gestiona las consultas</p>
+                <a href="/consultas/" class="btn btn-light">Ver Consultas</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

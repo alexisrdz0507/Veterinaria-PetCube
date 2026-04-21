@@ -1,0 +1,77 @@
+{% extends 'veterinaria/base.html' %}
+
+{% block content %}
+<div style="background-image: url('/static/veterinaria/img/consultas-bg.jpg'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; padding: 20px 0;">
+    <div class="container">
+        <div class="content-wrapper" style="background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 30px;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1><i class="fas fa-cart-plus"></i> Registrar Venta</h1>
+                <a href="{% url 'ventas' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </a>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="row gy-3">
+
+                    <!-- CLIENTE -->
+                    <div class="col-md-6">
+                        <label class="form-label">Cliente</label>
+                        <select name="id_cliente" class="form-select" required>
+                            <option value="">Seleccione un cliente</option>
+                            {% for cliente in clientes %}
+                                <option value="{{ cliente.id_cliente }}">
+                                    {{ cliente.nombre }} {{ cliente.apellido_paterno }} {{ cliente.apellido_materno }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- FECHA -->
+                    <div class="col-md-6">
+                        <label class="form-label">Fecha de Venta</label>
+                        <input type="date" name="fecha_venta" class="form-control" value="{{ today }}" required>
+                    </div>
+
+                    <!-- SUBTOTAL -->
+                    <div class="col-md-6">
+                        <label class="form-label">Subtotal</label>
+                        <input type="number" step="0.01" name="subtotal" class="form-control" required>
+                    </div>
+
+                    <!-- MÉTODO DE PAGO -->
+                    <div class="col-md-6">
+                        <label class="form-label">Método de Pago</label>
+                        <select name="metodo_pago" class="form-select" required>
+                            <option value="">Seleccione</option>
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Tarjeta">Tarjeta</option>
+                            <option value="Transferencia">Transferencia</option>
+                        </select>
+                    </div>
+
+                    <!-- ESTADO -->
+                    <div class="col-md-6">
+                        <label class="form-label">Estado de Venta</label>
+                        <select name="estado_venta" class="form-select" required>
+                            <option value="">Seleccione</option>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Completada">Completada</option>
+                            <option value="Facturada">Facturada</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="mt-4 d-flex justify-content-between">
+                    <a href="{% url 'ventas' %}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-success">
+                        Guardar Venta
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

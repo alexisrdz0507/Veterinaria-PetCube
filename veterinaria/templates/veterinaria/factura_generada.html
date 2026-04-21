@@ -1,0 +1,10 @@
+{% extends 'veterinaria/base.html' %}
+
+{% block content %}
+<h1> Factura Generada</h1>
+
+<p><strong>Folio:</strong> {{ folio }}</p>
+<p><strong>Venta:</strong> #{{ venta.id_venta }}</p>
+
+<a href="{% url 'ventas' %}" class="btn btn-primary">Volver a Ventas</a>
+{% endblock %}

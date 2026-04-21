@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Django
+db.sqlite3
+*.log
+*.pot
+*.pyc
+local_settings.py
+
+# VS Code
+.vscode/
+
+# Media & Static
+/media/
+/staticfiles/
+
+# Backups y temporales
+*.bak
+/backups/

@@ -1,0 +1,235 @@
+{% extends 'veterinaria/base.html' %}
+
+{% block content %}
+<div style="background-image: url('/static/veterinaria/img/mascotas-bg.jpg'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; padding: 20px 0;">
+    <div class="container">
+        <div class="content-wrapper" style="background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 30px;">
+            <div class="row mb-4">
+                <div class="col-md-8">
+                    <h1><i class="fas fa-dog"></i> Agregar Nueva Mascota</h1>
+                </div>
+                <div class="col-md-4 text-end">
+                    <a href="{% url 'mascotas' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </a>
+                </div>
+            </div>
+
+            <form method="POST" class="needs-validation">
+                {% csrf_token %}
+                
+                <!-- Búsqueda de Cliente -->
+                <div class="mb-4">
+                    <h5 class="mb-3"><i class="fas fa-search"></i> Buscar Cliente</h5>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="buscar_cliente" placeholder="Nombre, apellido o correo del cliente..." autocomplete="off">
+                    </div>
+                    <div id="resultados_busqueda" class="mt-2"></div>
+                    <input type="hidden" id="id_cliente" name="id_cliente" required>
+                    
+                    <!-- Cliente seleccionado -->
+                    <div id="cliente_seleccionado" class="mt-3" style="display: none;">
+                        <div class="alert alert-info">
+                            <strong>Cliente seleccionado:</strong> 
+                            <div id="datos_cliente"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <!-- Información de la Mascota -->
+                <div class="mb-4">
+                    <h5 class="mb-3"><i class="fas fa-paw"></i> Información de la Mascota</h5>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="nombre" class="form-label">Nombre de la Mascota *</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="sexo" class="form-label">Sexo *</label>
+                            <select class="form-select" id="sexo" name="sexo" required>
+                                <option value="">-- Seleccionar --</option>
+                                <option value="Macho">Macho</option>
+                                <option value="Hembra">Hembra</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="id_especie" class="form-label">Especie *</label>
+                            <select class="form-select" id="id_especie" name="id_especie" required>
+                                <option value="">-- Seleccionar --</option>
+                                {% for especie in especies %}
+                                <option value="{{ especie.id_especie }}">{{ especie.nombre_especie }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_raza" class="form-label">Raza *</label>
+                            <select class="form-select" id="id_raza" name="id_raza" required>
+                                <option value="">-- Seleccionar especie primero --</option>
+                                {% for raza in razas %}
+                                <option value="{{ raza.id_raza }}" data-especie="{{ raza.id_especie }}" style="display: none;">{{ raza.nombre_raza }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento *</label>
+                            <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="peso" class="form-label">Peso (kg) *</label>
+                            <input type="number" class="form-control" id="peso" name="peso" step="0.01" required>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <!-- Botones -->
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'mascotas' %}" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-success btn-lg" id="btn_enviar" disabled>
+                        <i class="fas fa-save"></i> Guardar Mascota
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    #resultados_busqueda {
+        max-height: 300px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        display: none;
+    }
+
+    .cliente-item {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .cliente-item:hover {
+        background-color: #f0f8f5;
+    }
+
+    .cliente-item strong {
+        display: block;
+        color: #2c7a4d;
+    }
+
+    .cliente-item small {
+        color: #666;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const buscarInput = document.getElementById('buscar_cliente');
+    const resultadosDiv = document.getElementById('resultados_busqueda');
+    const idClienteInput = document.getElementById('id_cliente');
+    const clienteSeleccionadoDiv = document.getElementById('cliente_seleccionado');
+    const datosClienteDiv = document.getElementById('datos_cliente');
+    const especieSelect = document.getElementById('id_especie');
+    const razaSelect = document.getElementById('id_raza');
+    const btnEnviar = document.getElementById('btn_enviar');
+
+    let debounceTimer;
+
+    // Búsqueda de clientes
+    buscarInput.addEventListener('input', function() {
+        clearTimeout(debounceTimer);
+        const query = this.value.trim();
+
+        if (query.length < 2) {
+            resultadosDiv.style.display = 'none';
+            resultadosDiv.innerHTML = '';
+            return;
+        }
+
+        debounceTimer = setTimeout(() => {
+            fetch(`/api/buscar-clientes/?q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length === 0) {
+                        resultadosDiv.innerHTML = '<div class="p-3 text-center text-muted">No se encontraron clientes</div>';
+                    } else {
+                        resultadosDiv.innerHTML = data.map(cliente => `
+                            <div class="cliente-item" onclick="seleccionarCliente(${cliente.id}, '${cliente.nombre}', '${cliente.correo}', '${cliente.telefono}')">
+                                <strong>${cliente.nombre}</strong>
+                                <small>📧 ${cliente.correo}</small>
+                                <small>📱 ${cliente.telefono}</small>
+                            </div>
+                        `).join('');
+                    }
+                    resultadosDiv.style.display = 'block';
+                });
+        }, 300);
+    });
+
+    window.seleccionarCliente = function(id, nombre, correo, telefono) {
+        idClienteInput.value = id;
+        buscarInput.value = nombre;
+        resultadosDiv.style.display = 'none';
+        
+        datosClienteDiv.innerHTML = `
+            <strong>${nombre}</strong><br>
+            <small>📧 ${correo}</small><br>
+            <small>📱 ${telefono}</small>
+        `;
+        clienteSeleccionadoDiv.style.display = 'block';
+        verificarFormulario();
+    };
+
+    // Filtrar razas por especie
+    especieSelect.addEventListener('change', function() {
+        const especieId = this.value;
+        const opciones = razaSelect.querySelectorAll('option');
+        
+        opciones.forEach(opcion => {
+            if (opcion.value === '') {
+                opcion.style.display = 'block';
+            } else {
+                opcion.style.display = (opcion.dataset.especie === especieId) ? 'block' : 'none';
+            }
+        });
+        
+        razaSelect.value = '';
+        verificarFormulario();
+    });
+
+    // Verificar si el formulario está completo
+    function verificarFormulario() {
+        const tieneCliente = idClienteInput.value !== '';
+        const tieneNombre = document.getElementById('nombre').value.trim() !== '';
+        const tieneEspecie = especieSelect.value !== '';
+        const tieneRaza = razaSelect.value !== '';
+        const tieneSexo = document.getElementById('sexo').value !== '';
+        const tieneFecha = document.getElementById('fecha_nacimiento').value !== '';
+        const tienePeso = document.getElementById('peso').value !== '';
+
+        btnEnviar.disabled = !(tieneCliente && tieneNombre && tieneEspecie && tieneRaza && tieneSexo && tieneFecha && tienePeso);
+    }
+
+    // Escuchar cambios en el formulario
+    document.getElementById('nombre').addEventListener('change', verificarFormulario);
+    document.getElementById('sexo').addEventListener('change', verificarFormulario);
+    razaSelect.addEventListener('change', verificarFormulario);
+    document.getElementById('fecha_nacimiento').addEventListener('change', verificarFormulario);
+    document.getElementById('peso').addEventListener('change', verificarFormulario);
+});
+</script>
+{% endblock %}

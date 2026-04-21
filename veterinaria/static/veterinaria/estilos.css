@@ -1,0 +1,139 @@
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Estilo para las imágenes de fondo que cubren TODA la pantalla */
+/* Fondos de pantalla para cada página */
+.bg-clientes {
+    background-image: url('/static/veterinaria/img/clientes-bg.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+.bg-mascotas {
+    background-image: url('/static/veterinaria/img/mascotas-bg.jpg');
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+}
+
+.bg-veterinarios {
+    background-image: url('/static/veterinaria/img/veterinarios-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+.bg-consultas {
+    background-image: url('/static/veterinaria/img/consultas-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+/* Contenedor semitransparente para que el texto se lea bien */
+.content-wrapper {
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 20px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Footer siempre abajo */
+footer {
+    margin-top: auto;
+    background: linear-gradient(135deg, #1e5631 0%, #2c7a4d 100%);
+}
+
+/* Tarjetas de la página de inicio */
+.card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 15px;
+}
+
+.card-hover:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+/* Tablas */
+.table {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(44, 122, 77, 0.1);
+    cursor: pointer;
+}
+
+.table-success {
+    background-color: #2c7a4d !important;
+    color: white;
+}
+
+/* Títulos */
+h1 {
+    color: #2c7a4d;
+    border-left: 5px solid #2c7a4d;
+    padding-left: 15px;
+    margin-bottom: 25px;
+}
+
+/* Botones */
+.btn-success {
+    background-color: #2c7a4d;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #1e5631;
+    transform: scale(1.05);
+}
+
+/* Badges */
+.badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+/* Navbar */
+.navbar {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* Dropdown */
+.dropdown-item:hover {
+    background-color: #2c7a4d;
+    color: white;
+}

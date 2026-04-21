@@ -1,0 +1,73 @@
+{% extends 'veterinaria/base.html' %}
+
+{% block body_class %}bg-inicio-veterinaria{% endblock %}
+
+{% block content %}
+<div class="dashboard-hero p-5 rounded mb-4 text-white"
+     style="background: linear-gradient(180deg, rgba(0,0,0,0.60) 0%, rgba(0,0,0,0.65) 100%);">
+    <div class="row align-items-center">
+        <div class="col-lg-8">
+            <h1 class="display-5 fw-bold">
+                <i class="fas fa-home"></i> Inicio Veterinario
+            </h1>
+            <p class="lead">
+                Bienvenido al panel de veterinaria. Accede rápidamente a Clientes, Mascotas, Consultas y Veterinarios.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="row gy-4">
+    <div class="col-md-3">
+        <a href="{% url 'clientes' %}" class="text-decoration-none">
+            <div class="card shadow-sm h-100 border-success">
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-3x text-success mb-3"></i>
+                    <h4 class="card-title">Clientes</h4>
+                    <p class="card-text mb-3">{{ total_clientes }} registrados</p>
+                    <span class="btn btn-success btn-sm">Ir a Clientes</span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="{% url 'mascotas' %}" class="text-decoration-none">
+            <div class="card shadow-sm h-100 border-info">
+                <div class="card-body text-center">
+                    <i class="fas fa-dog fa-3x text-info mb-3"></i>
+                    <h4 class="card-title">Mascotas</h4>
+                    <p class="card-text mb-3">{{ total_mascotas }} registradas</p>
+                    <span class="btn btn-info btn-sm">Ir a Mascotas</span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="{% url 'consultas' %}" class="text-decoration-none">
+            <div class="card shadow-sm h-100 border-warning">
+                <div class="card-body text-center">
+                    <i class="fas fa-notes-medical fa-3x text-warning mb-3"></i>
+                    <h4 class="card-title">Consultas</h4>
+                    <p class="card-text mb-3">{{ total_consultas }} totales</p>
+                    <span class="btn btn-warning btn-sm">Ir a Consultas</span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="{% url 'veterinarios' %}" class="text-decoration-none">
+            <div class="card shadow-sm h-100 border-primary">
+                <div class="card-body text-center">
+                    <i class="fas fa-user-md fa-3x text-primary mb-3"></i>
+                    <h4 class="card-title">Veterinarios</h4>
+                    <p class="card-text mb-3">{{ total_veterinarios }} registrados</p>
+                    <span class="btn btn-primary btn-sm">Ir a Veterinarios</span>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+{% endblock %}

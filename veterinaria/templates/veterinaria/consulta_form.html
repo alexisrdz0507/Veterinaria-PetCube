@@ -1,0 +1,27 @@
+<select name="id_cliente" id="cliente">
+    <option value="">Seleccione cliente</option>
+    {% for c in clientes %}
+        <option value="{{ c.id_cliente }}">
+            {{ c.nombre }} {{ c.apellido_paterno }}
+        </option>
+    {% endfor %}
+</select>
+
+<select name="id_mascota" id="mascota">
+    <option value="">Seleccione mascota</option>
+</select>
+
+<script>
+document.getElementById('cliente').addEventListener('change', function () {
+    const id = this.value;
+    fetch(`/ajax/mascotas-por-cliente/${id}/`)
+        .then(r => r.json())
+        .then(data => {
+            const select = document.getElementById('mascota');
+            select.innerHTML = '';
+            data.forEach(m => {
+                select.innerHTML += `<option value="${m.id}">${m.nombre}</option>`;
+            });
+        });
+});
+</script>

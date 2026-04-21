@@ -1,0 +1,61 @@
+{% extends 'veterinaria/base.html' %}
+
+{% block content %}
+<div class="dashboard-hero p-5 rounded mb-4 text-white" style="background: linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.65) 100%), url('https://images.unsplash.com/photo-1511993226954-8f4c00bb957a?w=1400&q=80') center/cover no-repeat;">
+    <div class="row align-items-center">
+        <div class="col-lg-8">
+            <h1 class="display-5 fw-bold"><i class="fas fa-concierge-bell"></i> Panel de Recepción</h1>
+            <p class="lead">Gestiona clientes, ventas y consulta las fechas registradas de atención.</p>
+        </div>
+    </div>
+</div>
+
+<div class="row gy-4">
+    <div class="col-md-3">
+        <a href="{% url 'clientes' %}" class="text-decoration-none">
+            <div class="card shadow-sm h-100 border-success">
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-3x text-success mb-3"></i>
+                    <h4 class="card-title">Clientes</h4>
+                    <p class="card-text mb-3">{{ total_clientes }} registrados</p>
+                    <span class="btn btn-success btn-sm">Ir a Clientes</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3">
+        <a href="{% url 'ventas' %}" class="text-decoration-none">
+            <div class="card shadow-sm h-100 border-warning">
+                <div class="card-body text-center">
+                    <i class="fas fa-cash-register fa-3x text-warning mb-3"></i>
+                    <h4 class="card-title">Ventas</h4>
+                    <p class="card-text mb-3">{{ total_ventas }} registradas</p>
+                    <span class="btn btn-warning btn-sm">Ir a Ventas</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3">
+        <a href="{% url 'consultas' %}" class="text-decoration-none">
+            <div class="card shadow-sm h-100 border-info">
+                <div class="card-body text-center">
+                    <i class="fas fa-calendar-check fa-3x text-info mb-3"></i>
+                    <h4 class="card-title">Consultas</h4>
+                    <p class="card-text mb-3">{{ total_consultas }} totales</p>
+                    <span class="btn btn-info btn-sm">Ir a Consultas</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm h-100 border-primary">
+            <div class="card-body text-center">
+                <i class="fas fa-paw fa-3x text-primary mb-3"></i>
+                <h4 class="card-title">Mascotas</h4>
+                <p class="card-text mb-3">{{ total_mascotas }} registradas</p>
+                <span class="btn btn-primary btn-sm">Ver Mascotas</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

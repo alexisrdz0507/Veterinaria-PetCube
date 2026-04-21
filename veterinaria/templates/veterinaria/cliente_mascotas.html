@@ -1,0 +1,32 @@
+{% extends 'veterinaria/cliente_base.html' %}
+
+{% block content %}
+<h1><i class="fas fa-dog"></i> Mis Mascotas</h1>
+<hr>
+
+<div class="row">
+    {% for mascota in mascotas %}
+    <div class="col-md-4 mb-4">
+        <div class="card card-hover h-100">
+            <div class="card-body">
+                <h4 class="card-title text-success">
+                    <i class="fas fa-paw"></i> {{ mascota.nombre }}
+                </h4>
+                <hr>
+                <p><strong>Especie:</strong> {{ mascota.id_especie.nombre_especie }}</p>
+                <p><strong>Raza:</strong> {{ mascota.id_raza.nombre_raza }}</p>
+                <p><strong>Sexo:</strong> {{ mascota.sexo }}</p>
+                <p><strong>Fecha Nacimiento:</strong> {{ mascota.fecha_nacimiento }}</p>
+                <p><strong>Peso:</strong> {{ mascota.peso }} kg</p>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <i class="fas fa-info-circle"></i> No tienes mascotas registradas.
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'veterinaria/base.html' %}
+
+{% block content %}
+<h2>Facturar Venta #{{ venta.id_venta }}</h2>
+
+<p><strong>Total:</strong> ${{ venta.total }}</p>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label>RFC</label>
+        <input type="text" name="rfc" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label>Razón Social</label>
+        <input type="text" name="razon_social" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label>Referencia de Pago</label>
+        <input type="text" name="referencia_pago" class="form-control" required>
+    </div>
+
+    <button class="btn btn-success">Generar Factura</button>
+    <a href="{% url 'ventas' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

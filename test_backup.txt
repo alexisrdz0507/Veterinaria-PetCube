@@ -1,0 +1,38 @@
+import pyodbc
+import os
+from datetime import datetime
+
+backup_dir = r'C:\Users\Alexis\Desktop\django\PetCubeweb\backups'
+if not os.path.exists(backup_dir):
+    os.makedirs(backup_dir)
+
+fecha = datetime.now().strftime('%Y%m%d_%H%M%S')
+backup_file = os.path.join(backup_dir, f'Test_Backup_{fecha}.bak')
+
+conn_str = (
+    "DRIVER={ODBC Driver 17 for SQL Server};"
+    "SERVER=LAPTOP-EL2DOH7K\\SQLEXPRESS;"
+    "DATABASE=PetCube_Veterinaria;"
+    "Trusted_Connection=yes;"
+)
+
+try:
+    print(f"Creando backup en: {backup_file}")
+    conn = pyodbc.connect(conn_str, autocommit=True)
+    cursor = conn.cursor()
+    
+    backup_sql = f"BACKUP DATABASE [PetCube_Veterinaria] TO DISK = N'{backup_file}'"
+    
+    cursor.execute(backup_sql)
+    cursor.close()
+    conn.close()
+    
+    print(f"✅ Backup creado: {backup_file}")
+    
+    if os.path.exists(backup_file):
+        print(f"✅ El archivo existe y pesa {os.path.getsize(backup_file)} bytes")
+    else:
+        print("❌ El archivo NO existe")
+        
+except Exception as e:
+    print(f"❌ Error: {e}")
